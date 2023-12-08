@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function get_volume {
+    pamixer --get-volume
+}
+
+function volume_up {
+    pactl set-sink-volume 0 +5%
+    volume=`get_volume`
+    dunstify -r 506 --icon=audio-speakers --hints=int:value:"$volume%" "Volume" "Volume $volume%"
+}
+function volume_down {
+    pactl set-sink-volume 0 -5%
+    volume=`get_volume`
+    dunstify -r 506 --icon=audio-speakers --hints=int:value:"$volume%" "Volume" "Volume $volume%"
+}
+function volume_mute {
+    pactl set-sink-mute 0 toggle
+    volume=`get_volume`
+    dunstify -r 506 --icon=audio-speakers --hints=int:value:"$volume%" "Volume" "Volume $volume%"
+}
+
+case $1 in
+	up)
+		volume_up
+		;;
+	down)
+		volume_down
+		;;
+	mute)
+		volume_mute
+		;;
+esac
+	
+
